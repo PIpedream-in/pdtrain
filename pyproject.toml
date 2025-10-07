@@ -41,10 +41,11 @@ dev = [
 pdtrain = "pdtrain.cli:main"
 
 [project.urls]
-Homepage = "https://pipedream.ai"
-Documentation = "https://docs.pipedream.ai/pdtrain"
+Homepage = "https://pipedream.in"
+Documentation = "https://pipedream.in"
 Repository = "https://github.com/pipedream/pdtrain"
 Issues = "https://github.com/pipedream/pdtrain/issues"
+"API Keys" = "https://pipedream.in/api-keys"
 
 [build-system]
 requires = ["setuptools>=64", "setuptools-scm>=8"]
