@@ -151,7 +151,7 @@ Configuration is stored in `~/.pdtrain/config.json`.
 
 You can also use environment variables:
 ```bash
-export PDTRAIN_API_URL=https://orchestrator.pipedream.ai
+export PDTRAIN_API_URL=https://ml-orchestrator.pipedream.in
 export PDTRAIN_API_KEY=sdk_xxxxx
 ```
 
@@ -227,6 +227,6 @@ MIT License - see LICENSE file for details.
 
 ## Support
 
-- Documentation: https://docs.pipedream.ai/pdtrain
+- API KEYS:https://pipedream.in/api-keys
 - Issues: https://github.com/pipedream/pdtrain/issues
-- Email: support@pipedream.ai
+- Email: hello@pipedream.in
