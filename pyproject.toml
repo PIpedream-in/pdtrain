@@ -1,6 +1,6 @@
 [project]
 name = "pdtrain"
-version = "0.1.0"
+version = "0.2.0"
 description = "Pipedream Training Orchestrator CLI - Train ML models on AWS SageMaker"
 authors = [{name = "Pipedream", email = "support@pipedream.ai"}]
 readme = "README.md"

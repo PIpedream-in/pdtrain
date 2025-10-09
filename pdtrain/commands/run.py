@@ -17,12 +17,12 @@ def run():
 
 
 @run.command()
-@click.option('--bundle', required=True, help='Bundle ID (from "pdtrain bundle list")')
+@click.option('--bundle', help='Bundle ID (from "pdtrain bundle list") - required for Script Mode')
 @click.option('--dataset', multiple=True, help='Dataset ID (from "pdtrain dataset list") - can specify multiple')
-@click.option('--framework', help='Framework (pytorch, tensorflow, sklearn, xgboost, huggingface)')
+@click.option('--framework', help='Framework (pytorch, tensorflow, sklearn, xgboost, huggingface) - for Script Mode')
 @click.option('--framework-version', help='Framework version (e.g., 2.2.0)')
 @click.option('--python-version', help='Python version (e.g., py310)')
-@click.option('--image', help='Docker image URI (for custom container mode)')
+@click.option('--image', help='Docker image URI (for Docker Mode - alternative to framework)')
 @click.option('--entry', default='train.py', help='Entry point script')
 @click.option('--env', multiple=True, help='Environment variable KEY=VALUE (can specify multiple)')
 @click.option('--hyperparameter', multiple=True, help='Hyperparameter KEY=VALUE (can specify multiple)')
@@ -31,23 +31,37 @@ def run():
 @click.option('--wait', is_flag=True, help='Wait for completion (implies --submit)')
 @click.pass_context
 def create(ctx, bundle, dataset, framework, framework_version, python_version, image, entry, env, hyperparameter, spot, submit, wait):
-    """Create a training run"""
+    """Create a training run
+
+    Two execution modes:
+    1. Script Mode: Requires --bundle and --framework (or uses default PyTorch)
+    2. Docker Mode: Requires --image (bundle optional if code is in image)
+    """
     config = ctx.obj['config']
 
     if not config.is_configured():
         print_error("CLI not configured. Run 'pdtrain configure' first.")
         ctx.exit(1)
 
-    client = APIClient(config.api_url, config.api_key)
+    # Validate execution mode
+    if not bundle and not image and not framework:
+        print_error("Must specify at least one of: --bundle, --image, or --framework")
+        ctx.exit(1)
 
-    # Bundle should be an ID (get ID from 'pdtrain bundle list')
-    bundle_id = bundle
+    if framework and image:
+        print_error("Cannot specify both --framework and --image. Use --framework for Script Mode or --image for Docker Mode.")
+        ctx.exit(1)
+
+    client = APIClient(config.api_url, config.api_key)
 
     # Build run payload
     payload = {
-        'bundle_id': bundle_id,
         'entry': entry,
     }
+
+    # Add bundle if provided
+    if bundle:
+        payload['bundle_id'] = bundle
 
     # Add framework or image
     if framework:

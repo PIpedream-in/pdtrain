@@ -1,4 +1,10 @@
+.gitignore
+CLI_GUIDE.md
+INSTALL.md
+LICENSE
+MANIFEST.in
 README.md
+STATUS.md
 pyproject.toml
 pdtrain/__init__.py
 pdtrain/cli.py
